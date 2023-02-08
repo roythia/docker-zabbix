@@ -30,10 +30,53 @@ if [ $(whoami) != "root" ];then
 	exit 1;
 fi
 
+START=0
 IP=$( ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v '^127\.|^255\.|^0\.' | head -n 1 )
 PORT=8080
-MYSQL_PASSWORD=ZkD58eV0CwBx
-MYSQL_ROOT_PASSWORD=rY2RWcH7SILt
+MYSQL_PASSWORD=zabbix123pass
+MYSQL_ROOT_PASSWORD=zabbix321rootpass
+
+set_ip(){
+    echo "Please enter IP"
+    read -p '(Default: ${IP}):' IP
+    [ -z "${IP}" ] && IP=${IP}
+	clear
+}
+
+set_port(){
+    echo "Please enter PORT"
+    read -p '(Default: 8080):' PORT
+    [ -z "${PORT}" ] && PORT='8080'
+	clear
+}
+
+set_mysql_password(){
+    echo "Please enter MYSQL_PASSWORD"
+    read -p '(Default: zabbix123pass):' MYSQL_PASSWORD
+    [ -z "${MYSQL_PASSWORD}" ] && MYSQL_PASSWORD='zabbix123pass'
+	clear
+}
+
+set_mysql_root_password(){
+    echo "Please enter MYSQL_ROOT_PASSWORD"
+    read -p '(Default: zabbix321rootpass):' MYSQL_ROOT_PASSWORD
+    [ -z "${MYSQL_ROOT_PASSWORD}" ] && MYSQL_ROOT_PASSWORD='zabbix321rootpass'
+	clear
+}
+
+click_to_start(){
+	set_ip && set_port && set_mysql_password && set_mysql_root_password
+	echo ''
+	echo "IP = ${IP}"
+    echo ''
+    echo "PORT = ${PORT}"
+    echo ''
+    echo "MYSQL_PASSWORD = ${MYSQL_PASSWORD}"
+    echo ''
+    echo "MYSQL_ROOT_PASSWORD = ${MYSQL_ROOT_PASSWORD}"
+	echo ''
+    read -p 'Press any key to start... or Press Ctrl+C to cancel:' START
+}
 
 # Remove older version docker or docker-engine.
 sudo yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine

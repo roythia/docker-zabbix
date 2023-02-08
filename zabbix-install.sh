@@ -78,6 +78,8 @@ click_to_start(){
     read -p 'Press any key to start... or Press Ctrl+C to cancel:' START
 }
 
+click_to_start
+
 # Remove older version docker or docker-engine.
 sudo yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
 
